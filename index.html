@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muhamad Rifky Ramdhani | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        overflow-x: hidden;
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+        transform-style: preserve-3d;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-10px) rotateX(5deg);
+        box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.25);
+      }
+
+      .floating {
+        animation: floating 6s ease-in-out infinite;
+      }
+
+      @keyframes floating {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .glow {
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -38px;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 29px;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+      }
+
+      .skill-bar {
+        height: 8px;
+        border-radius: 4px;
+        background: #1e293b;
+        overflow: hidden;
+      }
+
+      .skill-progress {
+        height: 100%;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        transition: width 1.5s ease;
+      }
+
+      #hero-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .neon-border {
+        position: relative;
+      }
+
+      .neon-border::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 0.5rem;
+        padding: 2px;
+        background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 3D Background -->
+    <div id="hero-canvas"></div>
+
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full z-50 backdrop-blur-md bg-opacity-80 bg-gray-900 border-b border-gray-800"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <span class="text-2xl font-bold gradient-text">RR</span>
+            </div>
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a
+                href="#home"
+                class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-blue-400 transition"
+                >Home</a
+              >
+              <a
+                href="#about"
+                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-blue-400 transition"
+                >About</a
+              >
+              <a
+                href="#experience"
+                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-blue-400 transition"
+                >Experience</a
+              >
+              <a
+                href="#skills"
+                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-blue-400 transition"
+                >Skills</a
+              >
+              <a
+                href="#contact"
+                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-blue-400 transition"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="md:hidden">
+            <button
+              id="menu-toggle"
+              class="text-gray-300 hover:text-white focus:outline-none"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a
+            href="#home"
+            class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-blue-400 transition"
+            >Home</a
+          >
+          <a
+            href="#about"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-blue-400 transition"
+            >About</a
+          >
+          <a
+            href="#experience"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-blue-400 transition"
+            >Experience</a
+          >
+          <a
+            href="#skills"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-blue-400 transition"
+            >Skills</a
+          >
+          <a
+            href="#contact"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-blue-400 transition"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="relative min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8"
+    >
+      <div class="max-w-7xl mx-auto text-center z-10">
+        <div class="floating mb-8">
+          <div
+            class="inline-block p-3 rounded-full bg-gray-800 bg-opacity-50 backdrop-blur-sm"
+          >
+            <div
+              class="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-blue-500"
+            >
+              <img
+                src="kay 2.png"
+                alt="Profile"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">
+          <span class="gradient-text">Muhamad Rifky Ramdhani</span>
+        </h1>
+        <div class="text-xl md:text-2xl mb-6">
+          <span id="typed" class="text-blue-400"></span>
+        </div>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-8">
+          An active Diploma student in Informatics Management at Universitas
+          Negeri Surabaya with a GPA of 3.91. Passionate about UI/UX
+          development, software engineering, and database management.
+        </p>
+        <div class="flex justify-center space-x-4">
+          <a
+            href="#contact"
+            class="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full font-medium text-white hover:from-blue-600 hover:to-purple-700 transition transform hover:scale-105"
+          >
+            Contact Me
+          </a>
+          <a
+            href="#about"
+            class="px-8 py-3 border border-blue-400 rounded-full font-medium text-blue-400 hover:bg-blue-400 hover:bg-opacity-10 transition transform hover:scale-105"
+          >
+            Learn More
+          </a>
+        </div>
+        <div class="mt-12 flex justify-center space-x-6">
+          <a
+            href="https://linkedin.com/in/MuhamadRifkyRamdhani"
+            target="_blank"
+            class="text-2xl text-gray-300 hover:text-blue-400 transition"
+          >
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a
+            href="mailto:rifkyki2510@gmail.com"
+            class="text-2xl text-gray-300 hover:text-red-400 transition"
+          >
+            <i class="fas fa-envelope"></i>
+          </a>
+          <a
+            href="tel:+6289650231597"
+            class="text-2xl text-gray-300 hover:text-green-400 transition"
+          >
+            <i class="fas fa-phone"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section
+      id="about"
+      class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 bg-opacity-50 backdrop-blur-sm"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            <span class="gradient-text">About Me</span>
+          </h2>
+          <div
+            class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"
+          ></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="relative">
+            <div class="neon-border rounded-lg overflow-hidden">
+              <img
+                src="kay 3.png"
+                alt="About"
+                class="w-full h-auto object-cover"
+              />
+            </div>
+            <div
+              class="absolute -bottom-6 -right-6 bg-gray-800 p-4 rounded-lg shadow-lg"
+            >
+              <div class="flex items-center">
+                <div class="p-3 bg-blue-500 rounded-full mr-3">
+                  <i class="fas fa-trophy text-white"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-white">GPA 3.91</h3>
+                  <p class="text-sm text-gray-300">Informatics Management</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold mb-6 text-white">Who am I?</h3>
+            <p class="text-gray-300 mb-6">
+              Hi, I’m Muhamad Rifky Ramdhani, an Informatics Management student
+              at Universitas Negeri Surabaya with a strong interest in UI/UX
+              Design, App Development, and Web Development. I’ve worked on
+              several academic and projects, including during my internship at
+              Transtama Logistics. I’m passionate about building usable and
+              impactful products through design and code. I enjoy learning new
+              technologies, working collaboratively in teams, and continuously
+              improving my skills in software engineering and digital product
+              design.
+            </p>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+              <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg">
+                <div class="flex items-center mb-2">
+                  <div
+                    class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3"
+                  >
+                    <i class="fas fa-user-graduate text-white text-sm"></i>
+                  </div>
+                  <h4 class="font-bold text-white">Education</h4>
+                </div>
+                <p class="text-gray-300 text-sm">
+                  Diploma in Informatics Management at Universitas Negeri
+                  Surabaya (Expected 2027)
+                </p>
+              </div>
+
+              <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg">
+                <div class="flex items-center mb-2">
+                  <div
+                    class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3"
+                  >
+                    <i class="fas fa-briefcase text-white text-sm"></i>
+                  </div>
+                  <h4 class="font-bold text-white">Experience</h4>
+                </div>
+                <p class="text-gray-300 text-sm">
+                  UI/UX Designer Intern at Transtama Logistics (2022)
+                </p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300"
+                >UI/UX Design</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300"
+                >Web Development</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300"
+                >Mobile App Development</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300"
+                >Laravel</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300"
+                >Flutter</span
+              >
+              <span
+                class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300"
+                >Database</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ADDED: Toolkit & Currently Learning Section -->
+    <section
+      class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 bg-opacity-50 backdrop-blur-sm"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            <span class="gradient-text">Toolkit & Learning</span>
+          </h2>
+          <div
+            class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"
+          ></div>
+        </div>
+
+        <!-- Toolkit -->
+        <div class="mb-12">
+          <h3 class="text-white text-xl font-semibold mb-4">Toolkit</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-1 bg-blue-600 text-white rounded-full"
+              >Figma</span
+            >
+            <span class="px-4 py-1 bg-purple-600 text-white rounded-full"
+              >Adobe Illustrator</span
+            >
+            <span class="px-4 py-1 bg-pink-500 text-white rounded-full"
+              >Adobe Photoshop</span
+            >
+            <span class="px-4 py-1 bg-yellow-500 text-white rounded-full"
+              >Maze</span
+            >
+            <span class="px-4 py-1 bg-green-500 text-white rounded-full"
+              >HTML & CSS</span
+            >
+            <span class="px-4 py-1 bg-indigo-500 text-white rounded-full"
+              >Flutter</span
+            >
+            <span class="px-4 py-1 bg-gray-700 text-white rounded-full"
+              >Laravel</span
+            >
+          </div>
+        </div>
+
+        <!-- Currently Learning -->
+        <div>
+          <h3 class="text-white text-xl font-semibold mb-4">
+            Currently Learning
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-1 bg-gray-800 text-gray-200 rounded-full"
+              >Design Systems</span
+            >
+            <span class="px-4 py-1 bg-gray-800 text-gray-200 rounded-full"
+              >UX Writing</span
+            >
+            <span class="px-4 py-1 bg-gray-800 text-gray-200 rounded-full"
+              >Responsive Web Design</span
+            >
+            <span class="px-4 py-1 bg-gray-800 text-gray-200 rounded-full"
+              >Git & GitHub Workflow</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADDED: Design / Development / Maintenance Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800 bg-opacity-60">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            <span class="gradient-text">What I Do</span>
+          </h2>
+          <div
+            class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"
+          ></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+            <h4 class="text-white text-xl font-bold mb-3">Design</h4>
+            <p class="text-gray-400 text-sm">
+              I design user interfaces for websites and mobile apps using Figma,
+              focusing on clean layouts, usability, and visual consistency. My
+              experience comes from academic projects and internship tasks.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+            <h4 class="text-white text-xl font-bold mb-3">Development</h4>
+            <p class="text-gray-400 text-sm">
+              I’m familiar with front-end development using HTML, CSS, Flutter,
+              and Laravel. I’ve built simple apps and CMS-style websites,
+              helping me understand how design and development work together.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+            <h4 class="text-white text-xl font-bold mb-3">Maintenance</h4>
+            <p class="text-gray-400 text-sm">
+              I help maintain and improve existing websites or applications by
+              optimizing UI, fixing design inconsistencies, updating layouts,
+              and ensuring usability. I also create documentation to assist
+              developers and stakeholders for smoother collaboration.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            <span class="gradient-text">My Journey</span>
+          </h2>
+          <div
+            class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"
+          ></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Work Experience -->
+          <div
+            class="bg-gray-900 bg-opacity-50 backdrop-blur-sm p-8 rounded-xl border border-gray-800 card-hover"
+          >
+            <div class="flex items-center mb-6">
+              <div class="p-3 bg-blue-500 rounded-lg mr-4">
+                <i class="fas fa-briefcase text-white text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white">Work Experience</h3>
+            </div>
+
+            <div class="relative pl-12 timeline">
+              <div class="mb-8 timeline-item">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                  <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-bold text-white">
+                      Transtama Logistics - Jakarta, Indonesia
+                    </h4>
+                    <span
+                      class="text-sm bg-blue-900 text-blue-200 px-2 py-1 rounded"
+                      >Feb 2022 - Jun 2022</span
+                    >
+                  </div>
+                  <p class="text-gray-300 mb-2">Internship</p>
+                  <ul class="list-disc pl-5 text-gray-400 text-sm space-y-1">
+                    <li>
+                      Designed user interfaces for both website and mobile
+                      application
+                    </li>
+                    <li>
+                      Created various marketing materials including pamphlets
+                      and banners
+                    </li>
+                    <li>
+                      Created internal UI/UX documentation to improve team
+                      efficiency
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div
+            class="bg-gray-900 bg-opacity-50 backdrop-blur-sm p-8 rounded-xl border border-gray-800 card-hover"
+          >
+            <div class="flex items-center mb-6">
+              <div class="p-3 bg-purple-500 rounded-lg mr-4">
+                <i class="fas fa-graduation-cap text-white text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white">Education</h3>
+            </div>
+
+            <div class="relative pl-12 timeline">
+              <div class="mb-8 timeline-item">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                  <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-bold text-white">
+                      Universitas Negeri Surabaya
+                    </h4>
+                    <span
+                      class="text-sm bg-purple-900 text-purple-200 px-2 py-1 rounded"
+                      >Aug 2023 - Aug 2027</span
+                    >
+                  </div>
+                  <p class="text-gray-300 mb-2">
+                    Diploma in Informatics Management, GPA: 3.91/4.00
+                  </p>
+                  <ul class="list-disc pl-5 text-gray-400 text-sm space-y-1">
+                    <li>
+                      Led academic projects including static websites and mobile
+                      apps
+                    </li>
+                    <li>Developed web applications using Laravel framework</li>
+                    <li>Created CMS-based websites with content management</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Organization -->
+          <div
+            class="bg-gray-900 bg-opacity-50 backdrop-blur-sm p-8 rounded-xl border border-gray-800 card-hover"
+          >
+            <div class="flex items-center mb-6">
+              <div class="p-3 bg-green-500 rounded-lg mr-4">
+                <i class="fas fa-users text-white text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white">
+                Organizational Experience
+              </h3>
+            </div>
+
+            <div class="relative pl-12 timeline">
+              <div class="mb-8 timeline-item">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                  <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-bold text-white">
+                      Student Executive Board (BEM)
+                    </h4>
+                    <span
+                      class="text-sm bg-green-900 text-green-200 px-2 py-1 rounded"
+                      >Jan 2025 - Present</span
+                    >
+                  </div>
+                  <p class="text-gray-300 mb-2">
+                    Staff, Department of Research, Innovation, and Technology
+                  </p>
+                  <ul class="list-disc pl-5 text-gray-400 text-sm space-y-1">
+                    <li>Served as Chief Executive of Workshop OLIVIA X 2025</li>
+                    <li>Led a cross-functional team of 25+ members</li>
+                    <li>Organized national-level student workshop</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Other Involvements -->
+          <div
+            class="bg-gray-900 bg-opacity-50 backdrop-blur-sm p-8 rounded-xl border border-gray-800 card-hover"
+          >
+            <div class="flex items-center mb-6">
+              <div class="p-3 bg-yellow-500 rounded-lg mr-4">
+                <i class="fas fa-hands-helping text-white text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white">Other Involvements</h3>
+            </div>
+
+            <div class="relative pl-12 timeline">
+              <div class="mb-8 timeline-item">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                  <ul class="list-disc pl-5 text-gray-400 text-sm space-y-2">
+                    <li>
+                      <strong>MI Expo 2024</strong> – Event Division: managed
+                      rundown and technical operations
+                    </li>
+                    <li>
+                      <strong>Gerigi National Competition 2024</strong> – Master
+                      of Ceremony
+                    </li>
+                    <li>
+                      <strong>Garuda International Cup II</strong> – Event
+                      Division
+                    </li>
+                    <li><strong>Equilibre 2024</strong> – Event Division</li>
+                    <li>
+                      <strong>Ramadhan Seminar (SERASI)</strong> – Public
+                      Relations
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section
+      id="skills"
+      class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 bg-opacity-50 backdrop-blur-sm"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            <span class="gradient-text">Skills & Expertise</span>
+          </h2>
+          <div
+            class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"
+          ></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- Technical Skills -->
+          <div>
+            <h3 class="text-2xl font-bold mb-6 text-white">Technical Skills</h3>
+
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-gray-300">UI/UX Design (Figma)</span>
+                  <span class="text-blue-400">88%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 88%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-gray-300">Web Development (HTML, CSS)</span>
+                  <span class="text-blue-400">75%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 90%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-gray-300">Laravel Framework</span>
+                  <span class="text-blue-400">70%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 85%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-gray-300">Mobile App (Flutter)</span>
+                  <span class="text-blue-400">70%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Soft Skills & Languages -->
+          <div>
+            <h3 class="text-2xl font-bold mb-6 text-white">Soft Skills</h3>
+
+            <div class="flex flex-wrap gap-3 mb-8">
+              <span
+                class="px-4 py-2 bg-gray-800 rounded-full text-gray-300 flex items-center"
+              >
+                <i class="fas fa-users mr-2 text-blue-400"></i> Teamwork
+              </span>
+              <span
+                class="px-4 py-2 bg-gray-800 rounded-full text-gray-300 flex items-center"
+              >
+                <i class="fas fa-lightbulb mr-2 text-purple-400"></i> Problem
+                Solving
+              </span>
+              <span
+                class="px-4 py-2 bg-gray-800 rounded-full text-gray-300 flex items-center"
+              >
+                <i class="fas fa-comments mr-2 text-green-400"></i>
+                Communication
+              </span>
+              <span
+                class="px-4 py-2 bg-gray-800 rounded-full text-gray-300 flex items-center"
+              >
+                <i class="fas fa-tasks mr-2 text-yellow-400"></i> Project
+                Management
+              </span>
+              <span
+                class="px-4 py-2 bg-gray-800 rounded-full text-gray-300 flex items-center"
+              >
+                <i class="fas fa-microphone mr-2 text-red-400"></i> Public
+                Speaking
+              </span>
+              <span
+                class="px-4 py-2 bg-gray-800 rounded-full text-gray-300 flex items-center"
+              >
+                <i class="fas fa-clock mr-2 text-pink-400"></i> Time Management
+              </span>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-4 text-white">Languages</h3>
+            <div class="flex flex-wrap gap-4">
+              <!-- Indonesian -->
+              <div class="flex items-center">
+                <img
+                  src="indo.png"
+                  alt="Indonesian Flag"
+                  class="w-10 h-10 rounded-full mr-3 object-cover"
+                />
+                <div>
+                  <p class="text-gray-300 font-medium">Indonesian</p>
+                  <p class="text-gray-500 text-sm">Native</p>
+                </div>
+              </div>
+
+              <!-- English -->
+              <div class="flex items-center">
+                <img
+                  src="uk-sphere-01.png"
+                  alt="UK Flag"
+                  class="w-10 h-10 rounded-full mr-3 object-cover"
+                />
+                <div>
+                  <p class="text-gray-300 font-medium">English</p>
+                  <p class="text-gray-500 text-sm">Intermediate</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 bg-gray-800 p-6 rounded-lg">
+              <h4 class="font-bold text-white mb-3 flex items-center">
+                <i class="fas fa-certificate text-yellow-400 mr-2"></i>
+                Certifications
+              </h4>
+              <p class="text-gray-300 text-sm">
+                <strong>AWS Cloud Essentials Knowledge Badge (2024):</strong>
+                Completed official AWS training covering cloud computing basics,
+                deployment models, and cloud security principles.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+<div class="mt-16 px-6 sm:px-12 lg:px-24">
+    <h3 class="text-2xl font-bold mb-12 text-white text-center">My Projects</h3>
+  
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
+      <!-- GuaVa -->
+      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 max-w-md w-full shadow-lg">
+        <div class="w-full h-44 bg-gray-700 rounded-lg mb-4 overflow-hidden">
+          <img src="guava.png" alt="GuaVa" class="w-full h-full object-cover" />
+        </div>
+        <h4 class="font-bold text-white mb-2">GuaVa – Guardian Vault</h4>
+        <p class="text-gray-400 text-sm mb-3">
+          UI design for a privacy-first app to store sensitive data. Focused on minimal dark-mode layout and secure onboarding.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Figma</span>
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Adobe Illustrator</span>
+        </div>
+      </div>
+  
+      <!-- Quissey -->
+      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 max-w-md w-full shadow-lg">
+        <div class="w-full h-44 bg-gray-700 rounded-lg mb-4 overflow-hidden">
+          <img src="Shot.png" alt="Quissey" class="w-full h-full object-cover" />
+        </div>
+        <h4 class="font-bold text-white mb-2">Quissey – Quiz App</h4>
+        <p class="text-gray-400 text-sm mb-3">
+          Final project mobile app with timer, answer tracking, and score summary. UI designed and developed using Flutter.
+        </p>
+        <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Figma</span>
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Flutter</span>
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Dart</span>
+        </div>
+      </div>
+  
+      <!-- Livre -->
+      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 max-w-md w-full shadow-lg">
+        <div class="w-full h-44 bg-gray-700 rounded-lg mb-4 overflow-hidden">
+          <img src="website/archeeve.png" alt="Archeeve" class="w-full h-full object-cover" />
+        </div>
+        <h4 class="font-bold text-white mb-2">Archeeve</h4>
+        <p class="text-gray-400 text-sm mb-3">
+            Built a CMS-style site using Laravel. Designed for users to publish, read, and manage articles. Implemented CRUD functionality, role-based access (admin & user), and styled the interface using Bootstrap.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Laravel</span>
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Bootstrap</span>
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">MySQL</span>
+        </div>
+      </div>
+  
+      <!-- Static Website -->
+      <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 max-w-md w-full shadow-lg">
+        <div class="w-full h-44 bg-gray-700 rounded-lg mb-4 overflow-hidden">
+          <img src="website/home.png" alt="Static Website" class="w-full h-full object-cover" />
+        </div>
+        <h4 class="font-bold text-white mb-2">Livre - Digital Library</h4>
+        <p class="text-gray-400 text-sm mb-3">
+            Designed and developed a digital library website using HTML, CSS, and JavaScript. Users can browse and borrow digital books through a simple, responsive interface.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">HTML</span>
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">CSS</span>
+          <span class="px-2 py-1 bg-gray-700 rounded-full text-xs text-gray-300">JavaScript</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            <span class="gradient-text">Get In Touch</span>
+          </h2>
+          <div
+            class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"
+          ></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div>
+            <h3 class="text-2xl font-bold mb-6 text-white">
+              Contact Information
+            </h3>
+
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="p-3 bg-blue-500 rounded-lg mr-4">
+                  <i class="fas fa-phone text-white"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white mb-1">Phone</h4>
+                  <a
+                    href="tel:+6289650231597"
+                    class="text-gray-300 hover:text-blue-400 transition"
+                    >+62 896-5023-1597</a
+                  >
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="p-3 bg-purple-500 rounded-lg mr-4">
+                  <i class="fas fa-envelope text-white"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white mb-1">Email</h4>
+                  <a
+                    href="mailto:rifkyki2510@gmail.com"
+                    class="text-gray-300 hover:text-blue-400 transition"
+                    >rifkyki2510@gmail.com</a
+                  >
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="p-3 bg-green-500 rounded-lg mr-4">
+                  <i class="fab fa-linkedin text-white"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white mb-1">LinkedIn</h4>
+                  <a
+                    href="https://linkedin.com/in/MuhamadRifkyRamdhani"
+                    target="_blank"
+                    class="text-gray-300 hover:text-blue-400 transition"
+                    >linkedin.com/in/MuhamadRifkyRamdhani</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-10">
+                <h4 class="font-bold text-white mb-4">Full Projects</h4>
+                <div class="flex items-center space-x-3">
+                  <a
+                    href="https://github.com/MuhamadRifkyRamdhani/Full-Projects---Muhamad-Rifky-Ramdhani.git"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-300 hover:text-blue-400 hover:bg-gray-700 transition"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                  <span class="text-sm text-gray-400">View full project repository</span>
+                </div>
+              </div>
+              
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold mb-6 text-white">
+              Send Me a Message
+            </h3>
+
+            <form class="space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="name" class="block text-gray-300 mb-2"
+                    >Your Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                  />
+                </div>
+                <div>
+                  <label for="email" class="block text-gray-300 mb-2"
+                    >Your Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="subject" class="block text-gray-300 mb-2"
+                  >Subject</label
+                >
+                <input
+                  type="text"
+                  id="subject"
+                  class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                />
+              </div>
+
+              <div>
+                <label for="message" class="block text-gray-300 mb-2"
+                  >Message</label
+                >
+                <textarea
+                  id="message"
+                  rows="5"
+                  class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg font-medium text-white hover:from-blue-600 hover:to-purple-700 transition transform hover:scale-105"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="py-10 px-4 sm:px-6 lg:px-8 bg-gray-900 border-t border-gray-800"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0">
+            <span class="text-2xl font-bold gradient-text">RR</span>
+          </div>
+
+          <div class="flex flex-col items-center md:items-end">
+            <p class="text-gray-400 mb-2">
+              © 2024 Muhamad Rifky Ramdhani. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .getElementById("menu-toggle")
+        .addEventListener("click", function () {
+          document.getElementById("mobile-menu").classList.toggle("hidden");
+        });
+
+      // Typed.js initialization
+      document.addEventListener("DOMContentLoaded", function () {
+        var typed = new Typed("#typed", {
+          strings: ["UI/UX Designer", "Web Developer", "Mobile App Developer"],
+          typeSpeed: 50,
+          backSpeed: 30,
+          loop: true,
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+              behavior: "smooth",
+            });
+
+            // Close mobile menu if open
+            if (
+              !document
+                .getElementById("mobile-menu")
+                .classList.contains("hidden")
+            ) {
+              document.getElementById("mobile-menu").classList.add("hidden");
+            }
+          });
+        });
+
+        // Initialize 3D background
+        init3DBackground();
+      });
+
+      // 3D Background Animation
+      function init3DBackground() {
+        const canvas = document.getElementById("hero-canvas");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        const renderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          alpha: true,
+          antialias: true,
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        // Create particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1000;
+
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+          posArray[i] = (Math.random() - 0.5) * 10;
+        }
+
+        particlesGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posArray, 3)
+        );
+
+        const particlesMaterial = new THREE.PointsMaterial({
+          size: 0.02,
+          color: 0x3b82f6,
+          transparent: true,
+          opacity: 0.8,
+          blending: THREE.AdditiveBlending,
+        });
+
+        const particlesMesh = new THREE.Points(
+          particlesGeometry,
+          particlesMaterial
+        );
+        scene.add(particlesMesh);
+
+        camera.position.z = 3;
+
+        // Animation loop
+        function animate() {
+          requestAnimationFrame(animate);
+
+          particlesMesh.rotation.x += 0.001;
+          particlesMesh.rotation.y += 0.001;
+
+          renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener("resize", function () {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+      }
+
+      // Animate skill bars on scroll
+      window.addEventListener("scroll", function () {
+        const skillBars = document.querySelectorAll(".skill-progress");
+        const skillsSection = document.getElementById("skills");
+        const sectionPosition = skillsSection.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.3;
+
+        if (sectionPosition < screenPosition) {
+          skillBars.forEach((bar) => {
+            const width = bar.style.width;
+            bar.style.width = "0";
+            setTimeout(() => {
+              bar.style.width = width;
+            }, 100);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
